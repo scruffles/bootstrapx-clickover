@@ -41,6 +41,8 @@
       // setup our own handlers
       this.$element.on( 'click', this.options.selector, $.proxy(this.clickery, this) );
 
+      $(this.options.contentSelector).hide();
+
       // soon add click hanlder to body to close this element
       // will need custom handler inside here
     }
@@ -171,7 +173,24 @@
 
       console.log(dt + ": clickover hide");
       this.hide();
+    },
+      setContent:function () {
+          var $tip = this.tip()
+              , title = this.getTitle()
+              , content = this.getContent()
+
+          $tip.find('.popover-title')[this.isHTML(title) ? 'html' : 'text'](title)
+          if (this.options.contentSelector) {
+              $tip.find('.popover-content > *').append($(this.options.contentSelector).show());
+          } else {
+              $tip.find('.popover-content > *')[this.isHTML(content) ? 'html' : 'text'](content)
     }
+
+          $tip.removeClass('fade top bottom left right in')
+      },
+      hasContent: function () {
+          return this.getTitle() || this.getContent() || this.options.contentSelector;
+      }
   })
 
   /* plugin definition */
