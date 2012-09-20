@@ -179,11 +179,11 @@
               , title = this.getTitle()
               , content = this.getContent()
 
-          $tip.find('.popover-title')[this.isHTML(title) ? 'html' : 'text'](title)
+          $tip.find('.popover-title')[this.options.html ? 'html' : 'text'](title)
           if (this.options.contentSelector) {
               $tip.find('.popover-content > *').append($(this.options.contentSelector).show());
           } else {
-              $tip.find('.popover-content > *')[this.isHTML(content) ? 'html' : 'text'](content)
+              $tip.find('.popover-content > *')[this.options.html ? 'html' : 'text'](content)
     }
 
           $tip.removeClass('fade top bottom left right in')
