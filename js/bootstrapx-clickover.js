@@ -175,21 +175,33 @@
       this.hide();
     },
       setContent:function () {
+          if (!this.options.contentSelector) {
           var $tip = this.tip()
               , title = this.getTitle()
               , content = this.getContent()
 
           $tip.find('.popover-title')[this.options.html ? 'html' : 'text'](title)
-          if (this.options.contentSelector) {
-              $tip.find('.popover-content > *').append($(this.options.contentSelector).show());
-          } else {
               $tip.find('.popover-content > *')[this.options.html ? 'html' : 'text'](content)
-    }
 
           $tip.removeClass('fade top bottom left right in')
+          }
       },
       hasContent: function () {
           return this.getTitle() || this.getContent() || this.options.contentSelector;
+      },
+      tip:function () {
+          if (this.options.contentSelector) {
+              var tip = $(this.options.contentSelector);
+              // todo horrible horrible hack to get around calls in boostrap-tooltip.show()
+              tip.remove = function() {return tip;};
+              tip.appendTo = function() {return tip;};
+              return tip;
+          } else {
+              if (!this.$tip) {
+                  this.$tip = $(this.options.template);
+      }
+              return this.$tip
+          }
       }
   })
 
